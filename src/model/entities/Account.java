@@ -20,10 +20,6 @@ public class Account {
 		return number;
 	}
 
-	public void setNumber(Integer number) {
-		this.number = number;
-	}
-
 	public String getHolder() {
 		return holder;
 	}
@@ -35,33 +31,27 @@ public class Account {
 	public Double getBalance() {
 		return balance;
 	}
-	public void setBalance(Double balance) {
-		this.balance = balance;
-	}
 
 	public Double getWithdrawLimit() {
 		return withdrawLimit;
 	}
 	
 	public void setWithdrawLimit (Double withdrawLimit) {
-		
+		this.withdrawLimit = withdrawLimit;
 	}
 	public void deposit(double amount) {
 		
-		amount += getBalance();
+		balance += amount;
 	}
 	
 	public void withdraw(double amount) {
 		
-		if(balance - amount >= 0.0 && amount <= withdrawLimit ) {
-		balance = balance - amount;
+		if (amount > withdrawLimit) {
+			throw new DomainException("The amount exceeds withdraw limit");	
 		}
-		if (balance - amount < 0.0 && withdrawLimit>amount){
+		if (amount>balance){
 			throw new DomainException("Not enough balance");
 		}
-		if (amount > withdrawLimit) {
-			throw new DomainException("The amount exceeds withdraw limit");
-			
-		}
+		balance -= amount;
 	}
 }
